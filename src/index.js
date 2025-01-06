@@ -12,7 +12,20 @@ dotenv.config({
 
 
 
-connectDB();
+connectDB()
+
+.then(() => {
+    app.on("error", (error) => {
+        console.log("failed connection", error);
+        throw error
+    })
+    app.listen(process.env.PORT||8000, () => {
+        console.log(`Sever is running at port : ${process.env.PORT}`);
+    })
+})
+.catch((err) => {
+    console.log("mongodb connection failed!!", err)
+})
 
 // import express from "express"
 // const app = express();
